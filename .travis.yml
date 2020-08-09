@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+  - "v10.16.3"
+branches:
+  only:
+    - master    # 构建的分支
+cache:
+  directories:
+    - node_modules # 依赖缓存的目录
+before_install:
+  - export TZ='Asia/Shanghai'  # 设置时区
+install:
+  npm install
+  #- npm install -g gitbook-cli # 安装编译工具
+script:
+  - npm run build
+  #- gitbook build
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN # github 上的token环境变量
+  local-dir: ./dist/ # 根据情况自定义到静态文件输出目录
+  keep_history: true
+  #verbose: true
+  on:
+    branch: master
+
+
